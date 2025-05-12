@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include "encrypt_sdes.h"
 
 using namespace std;
 
@@ -22,7 +22,7 @@ bitset<4> sbox_lookup(bitset<8> &xor_result) {
     };
     
     int s1[4][4] = {
-        {0, 1, 2, 3},
+        {0, 1, 2, 3},   
         {2, 0, 1, 3},
         {3, 0, 1, 0},
         {2, 1, 0, 3}
@@ -69,34 +69,35 @@ bitset<4> fk(bitset<4> &half, bitset<8> &key) {
 }
 
 bitset<8> encryption(bitset<8> &block, bitset<8> &key1, bitset<8> &key2) {
-    // Split the block into left and right halves
-    bitset<4> left_half = bitset<4>(block.to_string().substr(0, 4));
-    bitset<4> right_half = bitset<4>(block.to_string().substr(4, 4));
+    // divide o bloco em L e R
+    bitset<4> L = bitset<4>(block.to_string().substr(0, 4));
+    bitset<4> R = bitset<4>(block.to_string().substr(4, 4));
 
-    cout << "Left Half: " << left_half << endl;
-    cout << "Right Half: " << right_half << endl;
+    cout << "L: " << L << endl;
+    cout << "R: " << R << endl;
 
-    // First round
-    bitset<4> fk_output = fk(right_half, key1);
+    // PRIMEIRA RODADA
+    bitset<4> fk_output = fk(R, key1);
     cout << "FK Output: " << fk_output << endl;
-    right_half = left_half ^ fk_output; 
-    cout << "New Right Half: " << right_half << endl;
-    left_half = bitset<4>(block.to_string().substr(0, 4));
-    cout << "New Left Half: " << left_half << endl;
+    R = L ^ fk_output; 
+    cout << "New Right Half: " << R << endl;
+    L = bitset<4>(block.to_string().substr(0, 4));
+    cout << "New Left Half: " << L << endl;
     // Swap halves
-    swap(left_half, right_half);
-    cout << "After Swap - Left Half: " << left_half << ", Right Half: " << right_half << endl;
-    // Second round
-    fk_output = fk(right_half, key2);
+    swap(L, R);
+    cout << "After Swap - Left Half: " << L << ", Right Half: " << R << endl;
+
+
+    // SEGUNDA RODADA
+    fk_output = fk(R, key2);
     cout << "FK Output: " << fk_output << endl;
-    right_half = left_half ^ fk_output;
-    cout << "New Right Half: " << right_half << endl;
-    left_half = bitset<4>(block.to_string().substr(0, 4));
-    cout << "New Left Half: " << left_half << endl;
+    R = L ^ fk_output;
+    cout << "New Right Half: " << R << endl;
+    L = bitset<4>(block.to_string().substr(0, 4));
+    cout << "New Left Half: " << L << endl;
     // Combine halves
-    bitset<8> combined_block = bitset<8>((left_half.to_ulong() << 4) | right_half.to_ulong());
+    bitset<8> combined_block = bitset<8>((L.to_ulong() << 4) | R.to_ulong());
     cout << "Combined Block: " << combined_block << endl;
 
     return combined_block;
 }
-

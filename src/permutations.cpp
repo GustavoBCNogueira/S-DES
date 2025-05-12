@@ -1,6 +1,4 @@
-#include <bits/stdc++.h>
-
-using namespace std;
+#include "permutations.h"
 
 bitset<8> initial_permutation(bitset<8> &block) {
     int ip[8] = {2, 6, 3, 1, 4, 8, 5, 7};
