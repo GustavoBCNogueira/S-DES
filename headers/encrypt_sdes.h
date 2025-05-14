@@ -8,5 +8,6 @@ using namespace std;
 bitset<4> sbox_lookup(bitset<8> &xor_result);
 bitset<4> fk(bitset<4> &half, bitset<8> &key);
 bitset<8> encrypt_sdes(bitset<8> &block, bitset<10> &key);
+bitset<8> decrypt_sdes(bitset<8> &cipher_block, bitset<10> &key);
 
 #endif

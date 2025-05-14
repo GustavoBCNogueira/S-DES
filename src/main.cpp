@@ -16,12 +16,21 @@ int main() {
     
         bitset<8> encrypted_block = encrypt_sdes(block, key);
     
-        cout << "Encrypted Block: " << encrypted_block << endl;
+        cout << "Bloco cifrado: " << encrypted_block << endl;
 
         main();
     }
 
-    else if (option == 2) {}
+    else if (option == 2) {
+        bitset<8> cipher_block("01101101"); // texto cifrado em binário de 8 bits
+        bitset<10> key("1010000010"); // chave de 10 bits
+
+        bitset<8> block = decrypt_sdes(cipher_block, key);
+
+        cout << "Bloco decriptado: " << block << endl;
+
+        main();
+    }
     else if (option == 3) {}
     else if (option == 4) {}
 
