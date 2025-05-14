@@ -1,4 +1,5 @@
 #include "encrypt_sdes.h"
+#include "utils.h"
 
 int main() {
     int option;
@@ -11,40 +12,63 @@ int main() {
     cin >> option;
 
     if (option == 1) {
-        bitset<8> block("10101011"); // texto claro em binário de 8 bits
-        bitset<10> key("1010000010"); // chave de 10 bits
-    
-        bitset<8> encrypted_block = encrypt_sdes(block, key);
-    
-        cout << "Bloco cifrado: " << encrypted_block << endl;
-
+        cout << "Escolha uma opção:" << endl;
+        cout << "1. Inputar o caractere." << endl;
+        cout << "2. Inputar o byte em binário." << endl;
+        cin >> option;
+        if (option == 1) {
+            cout << "Digite o caractere a ser cifrado: ";
+            char c;
+            cin >> c;
+            bitset<8> block = charToBitset(c); // texto claro em binário de 8 bits
+            bitset<10> key("1010000010"); // chave de 10 bits
+            
+            bitset<8> encrypted_block = encrypt_sdes(block, key);
+            
+            cout << "Bloco cifrado: " << encrypted_block << endl;
+        }
+        else if (option == 2) {
+            cout << "Digite o byte em binário a ser cifrado (e.g. 11010111): ";
+            string binary;
+            cin >> binary;
+            bitset<8> block(binary); // texto claro em binário de 8 bits
+            bitset<10> key("1010000010"); // chave de 10 bits
+            
+            bitset<8> encrypted_block = encrypt_sdes(block, key);
+            
+            cout << "Bloco cifrado: " << encrypted_block << endl;
+        }
+        
         main();
     }
 
     else if (option == 2) {
-        bitset<8> cipher_block("01101101"); // texto cifrado em binário de 8 bits
+        cout << "Digite o byte em binário a ser decifrado: ";
+        string cipher_binary;
+        cin >> cipher_binary;
+        bitset<8> cipher_block(cipher_binary); // texto cifrado em binário de 8 bits
         bitset<10> key("1010000010"); // chave de 10 bits
 
         bitset<8> block = decrypt_sdes(cipher_block, key);
 
         cout << "Bloco decriptado: " << block << endl;
-
+        // 10101000
         main();
     }
 
     else if (option == 3) {
-        string input_bits = "101010111010101110101011"; // texto claro binário de 24 bits (3 blocos)
+        cout << "Digite o texto a ser cifrado em ECB-SDES: ";
+        string text;
+        cin >> text;
     
         bitset<10> key("1010000010"); // chave de 10 bits
         vector<bitset<8>> encrypted_blocks;
     
         // número de blocos de 8 bits
-        int num_blocks = input_bits.size() / 8;
-    
+        int num_blocks = text.size();
+
         for (int i = 0; i < num_blocks; i++) {
-            string block_str = input_bits.substr(i * 8, 8);
-            bitset<8> current_block(block_str);
-    
+            bitset<8> current_block = charToBitset(text[i]);
             bitset<8> encrypted_block = encrypt_sdes(current_block, key);
             encrypted_blocks.push_back(encrypted_block);
         }
