@@ -48,19 +48,19 @@ bitset<4> fk(bitset<4> &half, bitset<8> &key) {
 
     // faz a permutação P4
     bitset<4> p4_output = p4(sbox_output);
-    cout << "   R após P4: " << p4_output << endl;
+    cout << "   R após P4: " << p4_output << "\n\n";
 
     return p4_output;
 }
 
 bitset<8> encrypt_sdes(bitset<8> &block, bitset<10> &key) {
-    cout << "Bloco a ser cifrado: " << block << "\n\n";
+    cout << "Bloco a ser cifrado em binário: " << block << "\n\n";
     // primeiro, gera as chaves
     tuple<bitset<8>, bitset<8>> keys = generate_keys(key);
     bitset<8> key1 = get<0>(keys);
     bitset<8> key2 = get<1>(keys);
     cout << "Key1: " << key1 << endl;
-    cout << "Key2: " << key2 << endl;
+    cout << "Key2: " << key2 << "\n\n";
 
     // faz a permutação inicial (IP)
     block = IP(block);
@@ -75,10 +75,9 @@ bitset<8> encrypt_sdes(bitset<8> &block, bitset<10> &key) {
 
     // PRIMEIRA RODADA
     bitset<4> fk_output = fk(R, key1);
-    printState(L, R, "FK");
-
+    
     R = L ^ fk_output; // faz o XOR entre L e o resultado da função fk
-    printState(L, R, "XOR de L com FK");
+    printState(L, R, "FK");
 
     // permuta as duas metades
     swap(L, R);
@@ -87,10 +86,10 @@ bitset<8> encrypt_sdes(bitset<8> &block, bitset<10> &key) {
 
     // SEGUNDA RODADA
     fk_output = fk(R, key2);
-    printState(L, R, "FK");
-
+    
+    // faz o XOR entre L e o resultado da função fk
     R = L ^ fk_output;
-    printState(L, R, "XOR de L com FK");
+    printState(L, R, "FK");
 
     // junta L e R
     bitset<8> combined_block = bitset<8>((L.to_ulong() << 4) | R.to_ulong());
@@ -98,6 +97,7 @@ bitset<8> encrypt_sdes(bitset<8> &block, bitset<10> &key) {
 
     // faz o IP^-1
     block = inv_IP(combined_block);
+    printState(block, "IP^-1");
 
     return block;
 }
@@ -110,6 +110,10 @@ bitset<8> decrypt_sdes(bitset<8> &cipher_block, bitset<10> &key) {
     bitset<8> key2 = get<1>(keys);
     cout << "Key1: " << key1 << endl;
     cout << "Key2: " << key2 << "\n\n";
+
+    // faz a permutação inicial (IP)
+    cipher_block = IP(cipher_block);
+    printState(cipher_block, "IP");
 
     // divide o bloco em L e R
     bitset<4> L = bitset<4>(cipher_block.to_string().substr(0, 4));
@@ -133,6 +137,7 @@ bitset<8> decrypt_sdes(bitset<8> &cipher_block, bitset<10> &key) {
     fk_output = fk(R, key1);
     printState(L, R, "FK");
 
+    // faz o XOR entre L e o resultado da função fk
     R = L ^ fk_output;
     printState(L, R, "XOR de L com FK");
 

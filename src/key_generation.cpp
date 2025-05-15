@@ -19,7 +19,7 @@ bitset<8> p8(bitset<10> &key) {
     int p8[8] = {6, 3, 7, 4, 8, 5, 10, 9};
     bitset<8> permuted_key;
     
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < 8; i++) {
         permuted_key[7 - i] = key[10 - p8[i]];
     }   
 
@@ -27,45 +27,44 @@ bitset<8> p8(bitset<10> &key) {
 }
 
 tuple<bitset<8>, bitset<8>> generate_keys(bitset<10> &key) {
+    cout << "Geração de chaves:" << endl;
+
     bitset<10> permuted_key = p10(key);
 
-    cout << "KEY: Permuted Key: " << permuted_key << endl;
+    cout << "   Chave depois da permutação: " << permuted_key << endl;
     
     bitset<5> left_half = bitset<5>(permuted_key.to_string().substr(0, 5));
     bitset<5> right_half = bitset<5>(permuted_key.to_string().substr(5, 5));
 
-    cout << "KEY: Left Half: " << left_half << endl;
-    cout << "KEY: Right Half: " << right_half << endl;
-
     left_half = left_circular_shift(left_half);
     right_half = left_circular_shift(right_half);
 
-    cout << "KEY: Left Half after shift: " << left_half << endl;
-    cout << "KEY: Right Half after shift: " << right_half << endl;
+    cout << "   Primeira metade depois do shift: " << left_half << endl;
+    cout << "   Segunda metade depois do shift: " << right_half << endl;
     
     permuted_key = bitset<10>((left_half.to_ulong() << 5) | right_half.to_ulong());
 
-    cout << "KEY: Combined Key after shift: " << permuted_key << endl;
+    cout << "   Chave depois de juntar as duas metades: " << permuted_key << endl;
 
     bitset<8> key1 = p8(permuted_key);
    
-    cout << "KEY: Key 1: " << key1 << endl;
+    cout << "   Chave 1 (depois de P8): " << key1 << endl;
 
     for (int i = 0; i < 2; i++) {
         left_half = left_circular_shift(left_half);
         right_half = left_circular_shift(right_half);
     }
 
-    cout << "KEY: Left Half after second shift: " << left_half << endl;
-    cout << "KEY: Right Half after second shift: " << right_half << endl;
+    cout << "   Primeira metade depois dos shifts: " << left_half << endl;
+    cout << "   Segunda metade depois dos shifts: " << right_half << endl;
 
     permuted_key = bitset<10>((left_half.to_ulong() << 5) | right_half.to_ulong());
 
-    cout << "KEY: Combined Key after second shift: " << permuted_key << endl;
+    cout << "   Chave depois de juntar as duas metades: " << permuted_key << endl;
     
     bitset<8> key2 = p8(permuted_key);
 
-    cout << "KEY: Key 2: " << key2 << endl;
+    cout << "   Chave 2 (depois de P8): " << key2 << "\n\n";
 
     return {key1, key2};
 }
