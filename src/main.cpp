@@ -3,6 +3,8 @@
 #include "op_modes.h"
 
 int main() {
+    bitset<10> key("1010000010"); // chave de 10 bits
+
     int option;
     cout << "\n\nEscolha uma opção:" << endl;
     cout << "1. Encriptar com S-DES" << endl;
@@ -22,7 +24,6 @@ int main() {
                 char c;
                 cin >> c;
                 bitset<8> block = charToBitset(c); // texto claro em binário de 8 bits
-                bitset<10> key("1010000010"); // chave de 10 bits
                 
                 bitset<8> encrypted_block = encrypt_sdes(block, key);
                 
@@ -33,7 +34,6 @@ int main() {
                 string binary;
                 cin >> binary;
                 bitset<8> block(binary); // texto claro em binário de 8 bits
-                bitset<10> key("1010000010"); // chave de 10 bits
                 
                 bitset<8> encrypted_block = encrypt_sdes(block, key);
                 
@@ -46,7 +46,6 @@ int main() {
         string cipher_binary;
         cin >> cipher_binary;
         bitset<8> cipher_block(cipher_binary); // texto cifrado em binário de 8 bits
-        bitset<10> key("1010000010"); // chave de 10 bits
 
         bitset<8> block = decrypt_sdes(cipher_block, key);
 
@@ -64,24 +63,13 @@ int main() {
                 string text;
                 cin.ignore(); // limpa o buffer
                 getline(cin, text);
-            
-                bitset<10> key("1010000010"); // chave de 10 bits
                 
                 // faz a encriptação com o modo ECB
                 vector<bitset<8>> encrypted_blocks = encrypt_ecb_sdes(text, key);
             
                 // mostra os blocos cifrados
                 cout << "Blocos cifrados em ECB:" << endl;
-                cout << "Em binário: ";
-                for (const auto& block : encrypted_blocks) {
-                    cout << block << " ";
-                }
-                cout << endl;
-                cout << "Em hexadecimal: 0x";
-                for (const auto& block : encrypted_blocks) {
-                    cout << hex << uppercase << block.to_ulong();
-                }
-                cout << endl;
+                printCipherTextOpModes(encrypted_blocks);
             }
 
             else if (option == 2) {
@@ -90,34 +78,15 @@ int main() {
                 cin.ignore(); // limpa o buffer
                 getline(cin, binary);
 
-                // remove espaços em branco
-                removeSpaces(binary);
-
-                // divide a string em blocos de 8 bits
-                vector<bitset<8>> blocks;
-                for (size_t i = 0; i < binary.size(); i += 8) {
-                    string block_str = binary.substr(i, 8);
-                    bitset<8> current_block(block_str);
-                    blocks.push_back(current_block);
-                }
-
-                bitset<10> key("1010000010"); // chave de 10 bits
+                // transforma a string binária em um vetor de bitsets
+                vector<bitset<8>> blocks = binaryStringToBitsetVector(binary);
                 
                 // faz a encriptação com o modo ECB
                 vector<bitset<8>> encrypted_blocks = encrypt_ecb_sdes(blocks, key);
             
                 // mostra os blocos cifrados
                 cout << "Blocos cifrados em ECB:" << endl;
-                cout << "Em binário: ";
-                for (const auto& block : encrypted_blocks) {
-                    cout << block << " ";
-                }
-                cout << endl;
-                cout << "Em hexadecimal: 0x";
-                for (const auto& block : encrypted_blocks) {
-                    cout << hex << uppercase << block.to_ulong();
-                }
-                cout << endl;
+                printCipherTextOpModes(encrypted_blocks);
             }
     }
     
@@ -133,23 +102,12 @@ int main() {
                 cin.ignore(); // limpa o buffer
                 getline(cin, text);
 
-                bitset<10> key("1010000010"); // chave de 10 bits
-
                 // faz a encriptação com o modo CBC
                 vector<bitset<8>> encrypted_blocks = encrypt_cbc_sdes(text, key);
 
                 // mostra os blocos cifrados
                 cout << "Blocos cifrados em CBC:" << endl;
-                cout << "Em binário: ";
-                for (const auto& block : encrypted_blocks) {
-                    cout << block << " ";
-                }
-                cout << endl;
-                cout << "Em hexadecimal: 0x";
-                for (const auto& block : encrypted_blocks) {
-                    cout << hex << uppercase << block.to_ulong();
-                }
-                cout << endl;
+                printCipherTextOpModes(encrypted_blocks);
             }
 
             else if (option == 2) {
@@ -158,34 +116,15 @@ int main() {
                 cin.ignore(); // limpa o buffer
                 getline(cin, binary);
 
-                // remove espaços em branco
-                removeSpaces(binary);
-
-                // divide a string em blocos de 8 bits
-                vector<bitset<8>> blocks;
-                for (size_t i = 0; i < binary.size(); i += 8) {
-                    string block_str = binary.substr(i, 8);
-                    bitset<8> current_block(block_str);
-                    blocks.push_back(current_block);
-                }
-
-                bitset<10> key("1010000010"); // chave de 10 bits
+                // transforma a string binária em um vetor de bitsets
+                vector<bitset<8>> blocks = binaryStringToBitsetVector(binary);
                 
                 // faz a encriptação com o modo CBC
                 vector<bitset<8>> encrypted_blocks = encrypt_cbc_sdes(blocks, key);
 
                 // mostra os blocos cifrados
                 cout << "Blocos cifrados em CBC:" << endl;
-                cout << "Em binário: ";
-                for (const auto& block : encrypted_blocks) {
-                    cout << block << " ";
-                }
-                cout << endl;
-                cout << "Em hexadecimal: 0x";
-                for (const auto& block : encrypted_blocks) {
-                    cout << hex << uppercase << block.to_ulong();
-                }
-                cout << endl;
+                printCipherTextOpModes(encrypted_blocks);
             }
     }
 

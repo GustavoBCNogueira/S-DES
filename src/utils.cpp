@@ -26,3 +26,30 @@ void printState(const bitset<8>&block, string state_name) {
 void removeSpaces(string& str) {
     str.erase(remove(str.begin(), str.end(), ' '), str.end());
 }
+
+vector<bitset<8>> binaryStringToBitsetVector(string& binary) {
+    // remove espaços em branco
+    removeSpaces(binary);
+
+    // divide a string em blocos de 8 bits
+    vector<bitset<8>> blocks;
+    for (size_t i = 0; i < binary.size(); i += 8) {
+        string block_str = binary.substr(i, 8);
+        bitset<8> current_block(block_str);
+        blocks.push_back(current_block);
+    }
+    return blocks;
+}
+
+void printCipherTextOpModes(const vector<bitset<8>>& encrypted_blocks) {
+    cout << "Em binário: ";
+    for (const auto& block : encrypted_blocks) {
+        cout << block << " ";
+    }
+    cout << endl;
+    cout << "Em hexadecimal: 0x";
+    for (const auto& block : encrypted_blocks) {
+        cout << hex << uppercase << block.to_ulong();
+    }
+    cout << endl;
+}
