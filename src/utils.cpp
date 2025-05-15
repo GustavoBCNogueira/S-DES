@@ -49,7 +49,7 @@ void printCipherTextOpModes(const vector<bitset<8>>& encrypted_blocks) {
     cout << endl;
     cout << "Em hexadecimal: 0x";
     for (const auto& block : encrypted_blocks) {
-        cout << hex << uppercase << block.to_ulong();
+        cout << hex << uppercase << setw(2) << setfill('0') << block.to_ulong();
     }
     cout << endl;
 }
