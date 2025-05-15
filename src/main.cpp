@@ -61,7 +61,8 @@ int main() {
         if (option == 1) {
             cout << "Digite o texto a ser cifrado em ECB-SDES: ";
             string text;
-            cin >> text;
+            cin.ignore(); // limpa o buffer
+            getline(cin, text);
         
             bitset<10> key("1010000010"); // chave de 10 bits
             vector<bitset<8>> encrypted_blocks;
@@ -91,9 +92,11 @@ int main() {
         else if (option == 2) {
             cout << "Digite os bits a serem cifrados em ECB-SDES (e.g. 11010111 01101100 10111010 11110000): ";
             string binary;
-            cin >> binary;
+            cin.ignore(); // limpa o buffer
+            getline(cin, binary);
+
             // remove espaços em branco
-            binary.erase(remove(binary.begin(), binary.end(), ' '), binary.end());
+            removeSpaces(binary);
 
             // divide a string em blocos de 8 bits
             vector<bitset<8>> blocks;
@@ -140,7 +143,8 @@ int main() {
         if (option == 1) {
             cout << "Digite o texto a ser cifrado em CBC-SDES: ";
             string text;
-            cin >> text;
+            cin.ignore(); // limpa o buffer
+            getline(cin, text);
 
             bitset<10> key("1010000010"); // chave de 10 bits
             vector<bitset<8>> encrypted_blocks;
@@ -181,9 +185,11 @@ int main() {
         else if (option == 2) {
             cout << "Digite os bits a serem cifrados em CBC-SDES (e.g. 11010111 01101100 10111010 11110000): ";
             string binary;
-            cin >> binary;
+            cin.ignore(); // limpa o buffer
+            getline(cin, binary);
+            
             // remove espaços em branco
-            binary.erase(remove(binary.begin(), binary.end(), ' '), binary.end());
+            removeSpaces(binary);
 
             // divide a string em blocos de 8 bits
             vector<bitset<8>> blocks;

@@ -22,3 +22,7 @@ void printState(const bitset<8>&block, string state_name) {
         cout << "Estado após " << state_name << ":" << endl;
     cout << block << "\n\n";
 }
+
+void removeSpaces(string& str) {
+    str.erase(remove(str.begin(), str.end(), ' '), str.end());
+}
