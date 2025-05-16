@@ -41,14 +41,14 @@ vector<bitset<8>> binaryStringToBitsetVector(string& binary) {
     return blocks;
 }
 
-void printCipherTextOpModes(const vector<bitset<8>>& encrypted_blocks) {
+void printEncOrDecText(const vector<bitset<8>>& blocks) {
     cout << "Em binário: ";
-    for (const auto& block : encrypted_blocks) {
+    for (const auto& block : blocks) {
         cout << block << " ";
     }
     cout << endl;
     cout << "Em hexadecimal: 0x";
-    for (const auto& block : encrypted_blocks) {
+    for (const auto& block : blocks) {
         cout << hex << uppercase << setw(2) << setfill('0') << block.to_ulong();
     }
     cout << endl;
