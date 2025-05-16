@@ -17,6 +17,8 @@ int main() {
     cin >> option;
 
     if (option == 1) {
+        // ENCRIPTAÇÃO S-DES
+
         cout << "Escolha uma opção:" << endl;
         cout << "1. Inputar o caractere." << endl;
         cout << "2. Inputar o byte em binário." << endl;
@@ -27,8 +29,10 @@ int main() {
                 cin >> c;
                 bitset<8> block = charToBitset(c); // texto claro em binário de 8 bits
                 
+                // faz a encriptação
                 bitset<8> encrypted_block = encrypt_sdes(block, key);
                 
+                // mostra o bloco cifrado
                 cout << "Bloco cifrado em S-DES: " << endl;
                 printEncOrDecText({encrypted_block});
             }
@@ -46,18 +50,24 @@ int main() {
     }
 
     else if (option == 2) {
+        // DECRIPTAÇÃO S-DES
+
         cout << "Digite o byte em binário a ser decifrado (e.g. 10101000): ";
         string cipher_binary;
         cin >> cipher_binary;
         bitset<8> cipher_block(cipher_binary); // texto cifrado em binário de 8 bits
 
+        // faz a decriptação
         bitset<8> block = decrypt_sdes(cipher_block, key);
 
+        // mostra o bloco decifrado
         cout << "Bloco decriptado: " << endl;
         printEncOrDecText({block});
     }
 
     else if (option == 3) {
+        // ENCRIPTAÇÃO ECB-SDES
+
         cout << "Escolha uma opção:" << endl;
         cout << "1. Inputar o texto com caracteres." << endl;
         cout << "2. Inputar o texto em bytes em binário." << endl;
@@ -95,6 +105,8 @@ int main() {
     }
 
     else if (option == 4) {
+        // DECRIPTAÇÃO ECB-SDES
+
         cout << "Digite os bits a serem decifrados em ECB-SDES (e.g. 10101000 00001101 00101110 01101101): ";
         string binary;
         cin.ignore(); // limpa o buffer
@@ -112,6 +124,8 @@ int main() {
     }
     
     else if (option == 5) {
+        // ENCRIPTAÇÃO CBC-SDES
+
         cout << "Escolha uma opção:" << endl;
         cout << "1. Inputar o texto com caracteres." << endl;
         cout << "2. Inputar o texto em bytes em binário." << endl;
@@ -149,6 +163,8 @@ int main() {
     }
 
     else if (option == 6) {
+        // DECRIPTAÇÃO CBC-SDES
+        
         cout << "Digite os bits a serem decifrados em CBC-SDES (e.g. 00001011 10101001 10011011 01101010): ";
         string binary;
         cin.ignore(); // limpa o buffer

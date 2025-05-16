@@ -8,8 +8,9 @@ vector<bitset<8>> encrypt_ecb_sdes(string text, bitset<10> key) {
     // número de blocos de 8 bits
     int num_blocks = text.size();
 
+    // apenas encripta os blocos
     for (int i = 0; i < num_blocks; i++) {
-        bitset<8> current_block = charToBitset(text[i]);
+        bitset<8> current_block = charToBitset(text[i]); // primeiro transforma o caractere em bitset
         bitset<8> encrypted_block = encrypt_sdes(current_block, key);
         encrypted_blocks.push_back(encrypted_block);
     }
@@ -23,8 +24,8 @@ vector<bitset<8>> encrypt_ecb_sdes(vector<bitset<8>> blocks, bitset<10> key) {
     // número de blocos de 8 bits
     int num_blocks = blocks.size();
 
+    // apenas encripta os blocos
     for (int i = 0; i < num_blocks; i++) {
-
         bitset<8> encrypted_block = encrypt_sdes(blocks[i], key);
         encrypted_blocks.push_back(encrypted_block);
     }
@@ -38,6 +39,7 @@ vector<bitset<8>> decrypt_ecb_sdes(vector<bitset<8>> blocks, bitset<10> key) {
     // número de blocos de 8 bits
     int num_blocks = blocks.size();
 
+    // apenas decripta os blocos
     for (int i = 0; i < num_blocks; i++) {
         bitset<8> decrypted_block = decrypt_sdes(blocks[i], key);
         decrypted_blocks.push_back(decrypted_block);
@@ -56,7 +58,7 @@ vector<bitset<8>> encrypt_cbc_sdes(string text, bitset<10> key) {
     bitset<8> iv("01010101"); // FIXADO pela especificação do trabalho
 
     for (int i = 0; i < num_blocks; i++) {
-        bitset<8> current_block = charToBitset(text[i]);
+        bitset<8> current_block = charToBitset(text[i]); // primeiro transforma o caractere em bitset
         if (i == 0) {
             // pro primeiro bloco, XOR com o vetor de inicialização
             current_block ^= iv;
