@@ -64,22 +64,22 @@ bitset<4> fk(bitset<4> &half, bitset<8> &key) {
     cout << "Função FK:" << endl;
 
     // faz a expansão e permutação dos 4 bits
-    bitset<8> expanded_half = expansion_permutation(half);
-    cout << "   R após expansão e permutação: " << expanded_half << endl;
+    bitset<8> expanded_permuted_half = expansion_permutation(half);
+    cout << "   R após expansão e permutação: " << expanded_permuted_half << endl;
 
     // faz o XOR com a chave
-    bitset<8> xor_result = expanded_half ^ key;
-    cout << "   R após o XOR com a chave: " << xor_result << endl;
+    bitset<8> xored_result = expanded_permuted_half ^ key;
+    cout << "   R após o XOR com a chave: " << xored_result << endl;
 
     // aplica as S-boxes
-    bitset<4> sbox_output = sbox_lookup(xor_result);
-    cout << "   R após aplicar as S-Boxes: " << sbox_output << endl;
+    bitset<4> sbox_result = sbox_lookup(xored_result);
+    cout << "   R após aplicar as S-Boxes: " << sbox_result << endl;
 
     // faz a permutação P4
-    bitset<4> p4_output = p4(sbox_output);
-    cout << "   R após P4: " << p4_output << "\n\n";
+    bitset<4> p4_result = p4(sbox_result);
+    cout << "   R após P4: " << p4_result << "\n\n";
 
-    return p4_output;
+    return p4_result;
 }
 
 bitset<8> encrypt_sdes(bitset<8> &block, bitset<10> &key) {
@@ -103,9 +103,9 @@ bitset<8> encrypt_sdes(bitset<8> &block, bitset<10> &key) {
 
 
     // PRIMEIRA RODADA
-    bitset<4> fk_output = fk(R, key1);
+    bitset<4> fk_result = fk(R, key1);
     
-    L = L ^ fk_output; // faz o XOR entre L e o resultado da função fk
+    L = L ^ fk_result; // faz o XOR entre L e o resultado da função fk
     printState(L, R, "Feistel");
 
     // permuta as duas metades
@@ -114,10 +114,10 @@ bitset<8> encrypt_sdes(bitset<8> &block, bitset<10> &key) {
 
 
     // SEGUNDA RODADA
-    fk_output = fk(R, key2);
+    fk_result = fk(R, key2);
     
     // faz o XOR entre L e o resultado da função fk
-    L = L ^ fk_output;
+    L = L ^ fk_result;
     printState(L, R, "Feistel");
 
     // junta L e R
@@ -152,9 +152,9 @@ bitset<8> decrypt_sdes(bitset<8> &cipher_block, bitset<10> &key) {
 
 
     // PRIMEIRA RODADA
-    bitset<4> fk_output = fk(R, key2);
+    bitset<4> fk_result = fk(R, key2);
     
-    L = L ^ fk_output; // faz o XOR entre L e o resultado da função fk
+    L = L ^ fk_result; // faz o XOR entre L e o resultado da função fk
     printState(L, R, "Feistel");
 
     // permuta as duas metades
@@ -163,10 +163,10 @@ bitset<8> decrypt_sdes(bitset<8> &cipher_block, bitset<10> &key) {
 
 
     // SEGUNDA RODADA
-    fk_output = fk(R, key1);
+    fk_result = fk(R, key1);
     
     // faz o XOR entre L e o resultado da função fk
-    L = L ^ fk_output;
+    L = L ^ fk_result;
     printState(L, R, "Feistel");
 
     // junta L e R

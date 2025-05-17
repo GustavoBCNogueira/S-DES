@@ -40,12 +40,12 @@ bitset<8> expansion_permutation(bitset<4> &block) {
     int ep[8] = {4, 1, 2, 3, 2, 3, 4, 1}; // fixada pelo algoritmo
     
     // expansão de 4 bits para 8 bits
-    bitset<8> permuted_block;
+    bitset<8> expanded_permuted_block;
     
     for (int i = 0; i < 8; i++) {
         // permutação com ordem inversa por causa do bitset
-        permuted_block[7 - i] = block[4 - ep[i]];
+        expanded_permuted_block[7 - i] = block[4 - ep[i]];
     }
 
-    return permuted_block;
+    return expanded_permuted_block;
 }
